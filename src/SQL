@@ -1,0 +1,132 @@
+create database if not exists Human_friends;
+USE Human_friends;
+CREATE TABLE animal_classes
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY, 
+	Class_name VARCHAR(20)
+);
+
+INSERT INTO animal_classes (Class_name)
+VALUES ('вьючные'),
+('домашние');  
+
+
+CREATE TABLE packed_animals
+(
+	  Id INT AUTO_INCREMENT PRIMARY KEY,
+    Genus_name VARCHAR (20),
+    Class_id INT,
+    FOREIGN KEY (Class_id) REFERENCES animal_classes (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO packed_animals (Genus_name, Class_id)
+VALUES ('Лошади', 1),
+('Ослы', 1),  
+('Верблюды', 1); 
+    
+CREATE TABLE home_animals
+(
+	  Id INT AUTO_INCREMENT PRIMARY KEY,
+    Genus_name VARCHAR (20),
+    Class_id INT,
+    FOREIGN KEY (Class_id) REFERENCES animal_classes (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO home_animals (Genus_name, Class_id)
+VALUES ('Кошки', 2),
+('Собаки', 2),  
+('Хомяки', 2); 
+
+CREATE TABLE cats 
+(       
+    Id INT AUTO_INCREMENT PRIMARY KEY, 
+    Name VARCHAR(20), 
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id int,
+    Foreign KEY (Genus_id) REFERENCES home_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO cats (Name, Birthday, Commands, Genus_id)
+VALUES ('Кисса', '2023-04-10', 'кс-кс-кс', 1),
+('Тимофей', '2010-09-11', "отставить!", 1),  
+('Косонька', '2000-12-12', "", 1); 
+
+CREATE TABLE dogs 
+(       
+    Id INT AUTO_INCREMENT PRIMARY KEY, 
+    Name VARCHAR(20), 
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id int,
+    Foreign KEY (Genus_id) REFERENCES home_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO dogs (Name, Birthday, Commands, Genus_id)
+VALUES ('Бобик', '2010-04-04', 'ко мне, лежать, лапу, голос', 2),
+('Шарлей', '2017-12-10', "зайка, лежать, лапу", 2),  
+('Бармалей', '2001-09-17', "змейка, лежать, лапу, ищи", 2), 
+('Моти', '2009-08-11', "сидеть, лежать, брось, глазки", 2);
+
+CREATE TABLE hamsters 
+(       
+    Id INT AUTO_INCREMENT PRIMARY KEY, 
+    Name VARCHAR(20), 
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id int,
+    Foreign KEY (Genus_id) REFERENCES home_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO hamsters (Name, Birthday, Commands, Genus_id)
+VALUES ('Малой', '2020-10-12', '', 3),
+('Пузяк', '2023-08-11', NULL, 3),  
+('Здоровяк', '2023-07-02', NULL, 3), 
+('Синяк', '2024-01-01', NULL, 3);
+
+CREATE TABLE horses 
+(       
+    Id INT AUTO_INCREMENT PRIMARY KEY, 
+    Name VARCHAR(20), 
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id int,
+    Foreign KEY (Genus_id) REFERENCES packed_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO horses (Name, Birthday, Commands, Genus_id)
+VALUES ('Рэм', '2022-05-12', 'бегом, шагом', 1),
+('Темный', '2009-06-18', "бегом, шагом, хоп", 1),  
+('Бурый', '2010-09-12', "бегом, шагом, хоп", 1);
+
+CREATE TABLE donkeys 
+(       
+    Id INT AUTO_INCREMENT PRIMARY KEY, 
+    Name VARCHAR(20), 
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id int,
+    Foreign KEY (Genus_id) REFERENCES packed_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO donkeys (Name, Birthday, Commands, Genus_id)
+VALUES ('Паравозик', '2022-12-10', NULL, 2), 
+('Мула', '2022-01-14', NULL, 2);
+
+CREATE TABLE camels 
+(       
+    Id INT AUTO_INCREMENT PRIMARY KEY, 
+    Name VARCHAR(20), 
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id int,
+    Foreign KEY (Genus_id) REFERENCES packed_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO camels (Name, Birthday, Commands, Genus_id)
+VALUES ('Мустаф', '2009-09-09', 'хоп', 3),
+('Мухамед', '2010-10-12', "Алэ", 3),   
+('Али', '2022-05-05', "Тсс", 3);
+
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM camels;
+
+SELECT Name, Birthday, Commands FROM horses
+UNION SELECT  Name, Birthday, Commands FROM donkeys;
+
+
+
